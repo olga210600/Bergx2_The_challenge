@@ -1,83 +1,81 @@
 import React, {useEffect, useMemo} from "react";
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from "react-redux";
 
-import {fetchListItems, itemsSelector} from './store/slices/itemsSlices'
+import {fetchListItems, itemsSelector} from "./store/slices/itemsSlices";
 import LoadingPage from "./components/LoadingPage/LoadingPage";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import {Wrapper, WrapperUl, WrapperLi, Title, WrapperLiFiltered} from "./store/App.styled";
 
-const handleItems = (items, id) => {
-    return items.reduce((acc, curr) => {
-        if (curr.parent_id === id) {
-            const children = handleItems(items, curr.id)
+const handleItems = (items, id) => items.reduce((acc, curr) => {
+  if (curr.parent_id === id) {
+    const children = handleItems(items, curr.id);
 
-            if (children.length) {
-                curr.children = children
-            }
-            acc.push(curr)
-        }
+    if (children.length) {
+      curr.children = children;
+    }
+    acc.push(curr);
+  }
 
-        return acc
-    }, [])
-};
+  return acc;
+}, [])
 
 const renderingItems = (arr) => (
-    <WrapperUl>
-        {arr.map((filteredItem) => (
-            <WrapperLiFiltered key={filteredItem.id}>
-                {filteredItem.label}
-                {filteredItem.children && filteredItem.children.length ? renderingItems(filteredItem.children) : null}
+  <WrapperUl>
+    {arr.map((filteredItem) => (
+      <WrapperLiFiltered key={filteredItem.id}>
+        {filteredItem.label}
+        {filteredItem.children && filteredItem.children.length ? renderingItems(filteredItem.children) : null}
 
-            </WrapperLiFiltered>
-        ))}
-    </WrapperUl>
-)
+      </WrapperLiFiltered>
+    ))}
+  </WrapperUl>
+);
 
 const App = () => {
-    const items = useSelector(itemsSelector.getItems);
-    const isLoading = useSelector(itemsSelector.getIsLoading);
-    const isError = useSelector(itemsSelector.getErrorItems);
+  const items = useSelector(itemsSelector.getItems);
+  const isLoading = useSelector(itemsSelector.getIsLoading);
+  const isError = useSelector(itemsSelector.getErrorItems);
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchListItems())
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchListItems());
+  }, [dispatch]);
 
-    const listItems = useMemo(() => JSON.stringify(items), [items])
+  const listItems = useMemo(() => JSON.stringify(items), [items]);
 
-    const filteredItems = handleItems(JSON.parse(listItems), 0);
+  const filteredItems = handleItems(JSON.parse(listItems), 0);
 
-    if (isError) {
-        return (
-            <ErrorPage/>
-        )
-    }
-
+  if (isError) {
     return (
-        <Wrapper className="App">
-            {isLoading ? (
+      <ErrorPage/>
+    );
+  }
+
+  return (
+    <Wrapper>
+      {isLoading ? (
                 <LoadingPage/>
             ) : (
                 <div>
-                    <Title>Original:</Title>
+                  <Title>Original:</Title>
 
-                    <WrapperUl>
-                        {items.map((item) => (
-                            <WrapperLi key={item.id}>
-                                {item.label}
-                            </WrapperLi>
-                        ))}
-                    </WrapperUl>
+                  <WrapperUl>
+                    {items.map((item) => (
+                      <WrapperLi key={item.id}>
+                        {item.label}
+                      </WrapperLi>
+                    ))}
+                  </WrapperUl>
 
-                    <Title>Filtered:</Title>
+                  <Title>Filtered:</Title>
 
-                    {renderingItems(filteredItems)}
+                  {renderingItems(filteredItems)}
                 </div>
             )}
 
-        </Wrapper>
-    );
-}
+    </Wrapper>
+  );
+};
 
 export default App;

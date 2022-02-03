@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const Error = styled.div`
   width: 100vh;
@@ -7,4 +7,4 @@ export const Error = styled.div`
   font-size: 25px;
   color: #f00c0c;
   margin: 50px auto;
-`
+`;

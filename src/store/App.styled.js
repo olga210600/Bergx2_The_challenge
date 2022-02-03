@@ -1,22 +1,22 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const Title = styled.p`
   font-weight: bold;
   font-size: 25px;
-`
+`;
 
 export const Wrapper = styled.div`
   width: 1000px;
   height: 100%;
   text-align: center;
   margin: auto;
-`
+`;
 
 export const WrapperUl = styled.ul`
   width: 300px;
   text-decoration: none;
   margin: 20px auto 50px;
-`
+`;
 
 export const WrapperLi = styled.li`
   width: 300px;
@@ -30,7 +30,7 @@ export const WrapperLi = styled.li`
   display: flex;
   align-items: center;
   font-size: 20px;
-`
+`;
 
 export const WrapperLiFiltered = styled.li`
   width: 300px;
@@ -40,6 +40,6 @@ export const WrapperLiFiltered = styled.li`
   text-decoration: none;
   box-sizing: border-box;
   list-style-type: none;
-`
+`;
 
 
