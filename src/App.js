@@ -1,8 +1,10 @@
 import React, {useEffect, useMemo} from "react";
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchListItems, itemsSelector} from './store/slices/itemsSlices'
 
-import './App.css';
+import {fetchListItems, itemsSelector} from './store/slices/itemsSlices'
+import LoadingPage from "./components/LoadingPage/LoadingPage";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
+import {Wrapper, WrapperUl, WrapperLi, Title, WrapperLiFiltered} from "./store/App.styled";
 
 const handleItems = (items, id) => {
     return items.reduce((acc, curr) => {
@@ -20,15 +22,15 @@ const handleItems = (items, id) => {
 };
 
 const renderingItems = (arr) => (
-    <ul>
+    <WrapperUl>
         {arr.map((filteredItem) => (
-            <li key={filteredItem.id}>
+            <WrapperLiFiltered key={filteredItem.id}>
                 {filteredItem.label}
                 {filteredItem.children && filteredItem.children.length ? renderingItems(filteredItem.children) : null}
 
-            </li>
+            </WrapperLiFiltered>
         ))}
-    </ul>
+    </WrapperUl>
 )
 
 const App = () => {
@@ -48,33 +50,33 @@ const App = () => {
 
     if (isError) {
         return (
-            <div>Sorry, but you have an error with loading items. Try to do it later :)</div>
+            <ErrorPage/>
         )
     }
 
     return (
-        <div className="App">
+        <Wrapper className="App">
             {isLoading ? (
-                <span>Loading...</span>
+                <LoadingPage/>
             ) : (
                 <div>
-                    <h2>Original:</h2>
+                    <Title>Original:</Title>
 
-                    <ul>
+                    <WrapperUl>
                         {items.map((item) => (
-                            <li key={item.id}>
+                            <WrapperLi key={item.id}>
                                 {item.label}
-                            </li>
+                            </WrapperLi>
                         ))}
-                    </ul>
+                    </WrapperUl>
 
-                    <h2>Filtered:</h2>
+                    <Title>Filtered:</Title>
 
                     {renderingItems(filteredItems)}
                 </div>
             )}
 
-        </div>
+        </Wrapper>
     );
 }
 
