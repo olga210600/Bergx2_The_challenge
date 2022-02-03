@@ -1,7 +1,8 @@
 import React from 'react';
+import {Error} from "./ErrorPage.styled";
 
 const ErrorPage = () => (
-    <div>Sorry, but you have an error with loading items. Try to do it later :)</div>
+    <Error>Sorry, but you have an error with loading items. Try to do it later :)</Error>
 );
 
 export default ErrorPage;

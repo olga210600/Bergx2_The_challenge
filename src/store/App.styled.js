@@ -9,12 +9,13 @@ export const Wrapper = styled.div`
   width: 1000px;
   height: 100%;
   text-align: center;
+  margin: auto;
 `
 
 export const WrapperUl = styled.ul`
   width: 300px;
   text-decoration: none;
-  margin: auto;
+  margin: 20px auto 50px;
 `
 
 export const WrapperLi = styled.li`
